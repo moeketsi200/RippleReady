@@ -1,6 +1,7 @@
 package com.rippleready.service;
 
 import com.rippleready.model.AuditLedgerEntry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -16,8 +17,33 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class AuditLedgerService {
 
+    private final SqliteDatabaseService sqliteService;
     private final List<AuditLedgerEntry> ledger = new CopyOnWriteArrayList<>();
     private String previousHash = "0000000000000000000000000000000000000000000000000000000000000000";
+
+    public AuditLedgerService() {
+        this(null);
+    }
+
+    @Autowired
+    public AuditLedgerService(SqliteDatabaseService sqliteService) {
+        this.sqliteService = sqliteService;
+        initFromSqlite();
+    }
+
+    private synchronized void initFromSqlite() {
+        if (sqliteService != null) {
+            List<AuditLedgerEntry> savedEntries = sqliteService.getAllAuditEntries();
+            ledger.clear();
+            ledger.addAll(savedEntries);
+            sqliteService.getLastAuditHash().ifPresent(hash -> this.previousHash = hash);
+        }
+    }
+
+    public synchronized void reset() {
+        ledger.clear();
+        this.previousHash = "0000000000000000000000000000000000000000000000000000000000000000";
+    }
 
     public synchronized AuditLedgerEntry recordEvent(
             String eventType,
@@ -53,6 +79,11 @@ public class AuditLedgerService {
         );
 
         ledger.add(entry);
+
+        if (sqliteService != null) {
+            sqliteService.saveAuditEntry(entry);
+        }
+
         return entry;
     }
 
@@ -70,4 +101,3 @@ public class AuditLedgerService {
         }
     }
 }
-
