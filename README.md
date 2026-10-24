@@ -59,6 +59,7 @@ RippleReady natively ties into First National Bank’s commercial and social pil
 ## 🛠️ Tech Stack & Architecture
 
 - **Backend API:** Java 21+ / Spring Boot 3.3.5 (Enterprise-grade, type-safe, RESTful API with OpenAPI/Swagger UI at `/swagger-ui.html`).
+- **Database / Persistence:** Embedded **SQLite 3** (`rippleready.db`) with Write-Ahead Logging (`PRAGMA journal_mode = WAL;`), providing ACID transactions, zero-configuration local persistence, and sub-millisecond query performance.
 - **Core Engine:** Deterministic event-driven dependency rules with Haversine great-circle spatial calculations (sub-second execution, zero hallucination).
 - **Frontend (Web/PWA):** React 18 + Vite + Tailwind CSS (Mobile-first, dark-mode modern UI with interactive Leaflet map, emergency impact counters, and live sound/confetti celebrations).
 - **Mapping:** Leaflet.js with OpenStreetMap (lightweight, zero proprietary API key lock-in).
@@ -77,6 +78,7 @@ mvn spring-boot:run
 ```
 - 🌐 **Interactive Web App & Map:** [http://localhost:8080](http://localhost:8080)
 - 📑 **Swagger OpenAPI Docs:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- 💾 **SQLite Database Status:** [http://localhost:8080/api/database/status](http://localhost:8080/api/database/status)
 - 🩺 **Health Check:** [http://localhost:8080/healthz](http://localhost:8080/healthz)
 
 ### Option B: Run Frontend with Hot-Reload (For UI Development)
@@ -91,7 +93,7 @@ npm run dev
 ```
 - Open [http://localhost:3000](http://localhost:3000) for hot-module reloading.
 
-### 🧪 Run Automated Tests (64 Tests / 100% Passing)
+### 🧪 Run Automated Tests (72 Tests / 100% Passing)
 ```bash
 cd backend
 mvn test
@@ -134,17 +136,18 @@ mvn test
 
 ---
 
-## 🧪 Automated Test Suite & Acceptance Criteria (All 5 Epics — 64 Tests)
+## 🧪 Automated Test Suite & Acceptance Criteria (All 5 Epics — 72 Tests)
 
-The entire system is backed by **64 automated unit, integration, security, concurrency, math, and end-to-end tests** covering 100% of the hackathon user stories:
+The entire system is backed by **72 automated unit, integration, security, concurrency, math, persistence, and end-to-end tests** covering 100% of the hackathon user stories:
 
-| Feature Epic | Scenarios & Edge Cases Covered | Test Files (40 Tests Total) |
+| Feature Epic | Scenarios & Edge Cases Covered | Test Files (72 Tests Total) |
 | :--- | :--- | :--- |
 | **Epic 1: Incident Ingestion** | • US-1.1: 2.0 km perimeter & VERIFIED status<br>• US-1.2: Out-of-bounds rejection (HTTP 422)<br>• US-1.3: Spatial deduplication & confirmation vote<br>• Coordinate boundary values (+-90/+-180) & multi-citizen accumulation | [`Epic1IncidentIngestionTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic1IncidentIngestionTest.java)<br>[`Epic1IncidentEdgeCasesTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic1IncidentEdgeCasesTest.java) |
 | **Epic 2: Ripple Cascade** | • US-2.1: Critical runway detection (&le;2h buffer)<br>• US-2.2: Life & Care &rarr; Food &rarr; FNB Merchant priority<br>• 100 queries in < 200ms benchmark & prolonged outage modeling | [`Epic2RippleCascadeTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic2RippleCascadeTest.java)<br>[`Epic2CascadeBoundaryAndPerformanceTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic2CascadeBoundaryAndPerformanceTest.java) |
 | **Epic 3: Capacity Matching** | • US-3.1: Borehole & JoJo ranking by distance<br>• US-3.2: Capacity decrement & OTP token lock<br>• Over-allocation 409 Conflict, exact exhaustion, & negative unit rejection | [`Epic3ResourceMatchingTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic3ResourceMatchingTest.java)<br>[`Epic3ResourcePledgeFailureAndExhaustionTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic3ResourcePledgeFailureAndExhaustionTest.java) |
 | **Epic 4: Handshake Proof** | • US-4.1: Token redemption & green node transition<br>• Replay attack prevention (token single-use) & forged token rejection | [`Epic4DeliveryVerificationTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic4DeliveryVerificationTest.java)<br>[`Epic4DeliverySecurityAndReplayAttackTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic4DeliverySecurityAndReplayAttackTest.java) |
 | **Epic 5: FNB Escrow Rails** | • US-5.1: Automated R150 fuel stipend payout<br>• SHA-256 cryptographic hash-chained audit ledger | [`Epic5FnbMicroEscrowTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic5FnbMicroEscrowTest.java)<br>[`Epic5FnbCryptographicLedgerIntegrityTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/Epic5FnbCryptographicLedgerIntegrityTest.java) |
+| **SQLite Persistence** | • SQLite table creation, WAL journaling mode, and ACID transactions<br>• Audit ledger hash recovery across restarts & token lookup | [`SqlitePersistenceTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/SqlitePersistenceTest.java)<br>[`DatabaseControllerTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/DatabaseControllerTest.java) |
 | **Concurrency & Thread Safety** | • Simultaneous thread-safe pledges (never exceeds capacity)<br>• Parallel thread-safe incident deduplication | [`ConcurrencyAndThreadSafetyTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/ConcurrencyAndThreadSafetyTest.java) |
 | **Full Lifecycle E2E** | • End-to-end pipeline verification from burst to payout & audit ledger | [`HackathonEndToEndWinningFlowTest.java`](file:///Users/katlego/work/RippleReady/backend/src/test/java/com/rippleready/HackathonEndToEndWinningFlowTest.java) |
 
