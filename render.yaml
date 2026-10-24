@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: rippleready-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: SQLITE_DB_PATH
+        value: data/rippleready.db
