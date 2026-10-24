@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="30%" cy="25%" r="85%">
+      <stop offset="0%" stop-color="#0E2D33" />
+      <stop offset="55%" stop-color="#06181B" />
+      <stop offset="100%" stop-color="#02090B" />
+    </radialGradient>
+
+    <!-- Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F2DE" stop-opacity="0.6" />
+      <stop offset="50%" stop-color="#00AA9E" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#005B60" stop-opacity="0.4" />
+    </linearGradient>
+
+    <!-- Droplet Primary Gradient -->
+    <linearGradient id="dropGrad" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#38FDF0" />
+      <stop offset="35%" stop-color="#00D2C4" />
+      <stop offset="70%" stop-color="#009E94" />
+      <stop offset="100%" stop-color="#00565D" />
+    </linearGradient>
+
+    <!-- Droplet Inner Glow -->
+    <linearGradient id="innerGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Ripple 1 (Outer) -->
+    <linearGradient id="ripple1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00F2DE" stop-opacity="0.1" />
+      <stop offset="50%" stop-color="#00F2DE" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#00F2DE" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Ripple 2 (Mid) -->
+    <linearGradient id="ripple2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00AA9E" stop-opacity="0.2" />
+      <stop offset="50%" stop-color="#38FDF0" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#00AA9E" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="glowShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#00D2C4" flood-opacity="0.35" />
+    </filter>
+
+    <filter id="iconGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- App Icon Base Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="6" />
+
+  <!-- Background Ambient Wave Glow -->
+  <circle cx="256" cy="270" r="160" fill="#00D2C4" opacity="0.08" filter="url(#iconGlow)" />
+
+  <!-- Outermost Ripple Wave (Perimeter Boundary) -->
+  <circle cx="256" cy="276" r="192" fill="none" stroke="url(#ripple1)" stroke-width="6" stroke-dasharray="14 18" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Secondary Ripple Wave (Cascade Wavefront) -->
+  <circle cx="256" cy="276" r="144" fill="none" stroke="url(#ripple2)" stroke-width="8" stroke-dasharray="24 14" stroke-linecap="round" opacity="0.85" />
+
+  <!-- Tertiary Concentric Ripple (Immediate Proximity Ring) -->
+  <circle cx="256" cy="276" r="98" fill="none" stroke="#38FDF0" stroke-width="5" opacity="0.4" />
+
+  <!-- Central Water Droplet / Shield Emblem -->
+  <g filter="url(#glowShadow)">
+    <!-- Droplet Base Geometry -->
+    <path d="M 256 104 
+             C 256 104, 348 238, 348 304 
+             C 348 358, 307 398, 256 398 
+             C 205 398, 164 358, 164 304 
+             C 164 238, 256 104, 256 104 Z" 
+          fill="url(#dropGrad)" />
+
+    <!-- Droplet Glass Highlight / Specular Edge -->
+    <path d="M 256 124 
+             C 256 124, 210 236, 196 288 
+             C 188 318, 186 342, 198 360 
+             C 188 344, 184 322, 192 294 
+             C 204 250, 246 148, 256 124 Z" 
+          fill="url(#innerGlow)" opacity="0.75" />
+
+    <!-- Stylized "R" Monogram & Forward Momentum Wave within the Droplet -->
+    <!-- Stem of the R -->
+    <rect x="222" y="222" width="16" height="116" rx="8" fill="#FFFFFF" opacity="0.96" />
+    
+    <!-- Loop of the R -->
+    <path d="M 230 222 
+             L 264 222 
+             C 284 222, 298 234, 298 252 
+             C 298 270, 284 282, 264 282 
+             L 230 282 Z" 
+          fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.96" />
+    
+    <!-- Leg of the R (dynamic kick wave) -->
+    <path d="M 260 278 
+             L 288 332 
+             C 291 338, 298 340, 304 336 
+             C 310 332, 310 324, 304 316 
+             L 278 272" 
+          fill="#FFFFFF" opacity="0.96" />
+  </g>
+
+  <!-- Climate Resilience Spark (Amber/Gold Accent) in Upper Right -->
+  <circle cx="364" cy="142" r="14" fill="#F59E0B" filter="url(#iconGlow)" opacity="0.9" />
+  <circle cx="364" cy="142" r="7" fill="#FDE68A" />
+
+  <!-- Mini Pulse Ripple around Spark -->
+  <circle cx="364" cy="142" r="26" fill="none" stroke="#F59E0B" stroke-width="3" stroke-dasharray="6 6" opacity="0.5" />
+</svg>

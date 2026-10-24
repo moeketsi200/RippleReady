@@ -13,9 +13,11 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
         {/* Brand */}
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-teal-700 flex items-center justify-center shadow-lg shadow-teal-500/20 text-white font-extrabold text-xl">
-            RR
-          </div>
+          <img
+            src="/logo.svg"
+            alt="RippleReady Logo"
+            className="w-10 h-10 rounded-xl shadow-lg shadow-teal-500/30 hover:scale-105 transition-transform duration-200"
+          />
           <div>
             <div className="flex items-center space-x-2">
               <h1 className="text-xl font-bold tracking-tight text-white flex items-center">
