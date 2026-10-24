@@ -4,6 +4,8 @@ import { AlertCircle, Clock, Users, DollarSign, CheckCircle2, Truck, Sparkles, A
 export default function CascadeSummaryPanel({
   facilities,
   simulationResult,
+  selectedFacilityId,
+  onFocusFacility,
   onOpenPledge,
   onOpenVerify
 }) {
@@ -51,18 +53,23 @@ export default function CascadeSummaryPanel({
         {facilities.map((fac) => {
           const isResolved = fac.status === 'RESOLVED';
           const isDispatched = fac.status === 'DISPATCHED';
+          const isSelected = selectedFacilityId === fac.id;
 
           return (
             <div
               key={fac.id}
-              className={`p-3 rounded-xl border transition-all ${
-                isResolved
-                  ? 'bg-emerald-950/20 border-emerald-800/40 shadow-sm'
+              onClick={() => onFocusFacility && onFocusFacility(fac)}
+              title="Click to focus & pan map to this facility"
+              className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                isSelected
+                  ? 'ring-2 ring-teal-400 bg-teal-950/40 border-teal-500 shadow-lg shadow-teal-500/20 scale-[1.01]'
+                  : isResolved
+                  ? 'bg-emerald-950/20 border-emerald-800/40 shadow-sm hover:border-emerald-600'
                   : isDispatched
-                  ? 'bg-cyan-950/20 border-cyan-800/40 shadow-sm'
+                  ? 'bg-cyan-950/20 border-cyan-800/40 shadow-sm hover:border-cyan-600'
                   : fac.urgencyLevel === 'CRITICAL'
                   ? 'bg-red-950/20 border-red-800/50 hover:border-red-600'
-                  : 'bg-slate-800/50 border-slate-700/60 hover:border-slate-600'
+                  : 'bg-slate-800/50 border-slate-700/60 hover:border-slate-500'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
@@ -78,6 +85,11 @@ export default function CascadeSummaryPanel({
                       Tier {fac.priorityTier}: {fac.tierDisplay || 'Priority'}
                     </span>
                     <span className="text-xs text-slate-400">• {fac.distanceKm} km away</span>
+                    {isSelected && (
+                      <span className="text-[9px] font-extrabold text-teal-300 bg-teal-900/70 px-1.5 py-0.5 rounded border border-teal-400/50">
+                        📍 On Map
+                      </span>
+                    )}
                   </div>
                   <h3 className="font-bold text-sm text-white mt-1">{fac.name}</h3>
                 </div>

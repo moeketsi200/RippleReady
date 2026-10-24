@@ -15,6 +15,10 @@ export default function App() {
   const [resources, setResources] = useState(INITIAL_RESOURCES);
   const [simulationResult, setSimulationResult] = useState(null);
 
+  // Map Navigation & Layout Controls
+  const [mapViewMode, setMapViewMode] = useState('split'); // 'split' | 'maximized' | 'minimized'
+  const [focusTarget, setFocusTarget] = useState(null);
+
   // Modals & Selections
   const [selectedFacility, setSelectedFacility] = useState(null);
   const [selectedResource, setSelectedResource] = useState(null);
@@ -119,43 +123,76 @@ export default function App() {
       />
 
       {/* Main Operations Console */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
-        {/* Left Column: Interactive Map (8 cols on desktop) */}
-        <section className="lg:col-span-8 flex flex-col">
-          <RippleMap
-            incident={incident}
-            facilities={facilities}
-            resources={resources}
-            onSelectFacility={(fac) => {
-              setSelectedFacility(fac);
-              if (fac.status === 'DISPATCHED') {
-                setIsVerifyOpen(true);
-              } else {
+      <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 transition-all duration-300">
+        <div className={`grid grid-cols-1 gap-4 transition-all duration-300 ${
+          mapViewMode === 'split' ? 'lg:grid-cols-12' : 'grid-cols-1'
+        }`}>
+          {/* Left Column: Interactive Map */}
+          <section className={`flex flex-col transition-all duration-300 ${
+            mapViewMode === 'maximized'
+              ? 'col-span-1 lg:col-span-12'
+              : mapViewMode === 'minimized'
+              ? 'col-span-1 lg:col-span-12'
+              : 'lg:col-span-8'
+          }`}>
+            <RippleMap
+              incident={incident}
+              facilities={facilities}
+              resources={resources}
+              focusTarget={focusTarget}
+              mapViewMode={mapViewMode}
+              onToggleViewMode={(mode) => setMapViewMode(mode)}
+              onResetEpicenter={() => setFocusTarget(null)}
+              onSelectFacility={(fac) => {
+                setSelectedFacility(fac);
+                setFocusTarget({ latitude: fac.latitude, longitude: fac.longitude, zoom: 17, id: fac.id });
+                if (fac.status === 'DISPATCHED') {
+                  setIsVerifyOpen(true);
+                } else {
+                  setIsPledgeOpen(true);
+                }
+              }}
+              onSelectResource={(res) => {
+                setSelectedResource(res);
+                setFocusTarget({ latitude: res.latitude, longitude: res.longitude, zoom: 17, id: res.id });
                 setIsPledgeOpen(true);
-              }
-            }}
-            onSelectResource={(res) => {
-              setSelectedResource(res);
-              setIsPledgeOpen(true);
-            }}
-          />
-        </section>
+              }}
+            />
+          </section>
 
-        {/* Right Column: Cascading Interdependency Ledger (4 cols on desktop) */}
-        <section className="lg:col-span-4 flex flex-col h-[600px] lg:h-[calc(100vh-140px)]">
-          <CascadeSummaryPanel
-            facilities={facilities}
-            simulationResult={simulationResult}
-            onOpenPledge={(fac) => {
-              setSelectedFacility(fac);
-              setIsPledgeOpen(true);
-            }}
-            onOpenVerify={(fac) => {
-              setSelectedFacility(fac);
-              setIsVerifyOpen(true);
-            }}
-          />
-        </section>
+          {/* Right Column: Cascading Interdependency Ledger */}
+          <section className={`flex flex-col transition-all duration-300 ${
+            mapViewMode === 'maximized'
+              ? 'col-span-1 lg:col-span-12 mt-2'
+              : mapViewMode === 'minimized'
+              ? 'col-span-1 lg:col-span-12'
+              : 'lg:col-span-4 h-[600px] lg:h-[calc(100vh-140px)]'
+          }`}>
+            <CascadeSummaryPanel
+              facilities={facilities}
+              simulationResult={simulationResult}
+              selectedFacilityId={focusTarget?.id}
+              onFocusFacility={(fac) => {
+                setFocusTarget({
+                  latitude: fac.latitude,
+                  longitude: fac.longitude,
+                  zoom: 17,
+                  id: fac.id
+                });
+              }}
+              onOpenPledge={(fac) => {
+                setSelectedFacility(fac);
+                setFocusTarget({ latitude: fac.latitude, longitude: fac.longitude, zoom: 17, id: fac.id });
+                setIsPledgeOpen(true);
+              }}
+              onOpenVerify={(fac) => {
+                setSelectedFacility(fac);
+                setFocusTarget({ latitude: fac.latitude, longitude: fac.longitude, zoom: 17, id: fac.id });
+                setIsVerifyOpen(true);
+              }}
+            />
+          </section>
+        </div>
       </main>
 
       {/* Modals */}
