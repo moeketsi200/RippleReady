@@ -99,6 +99,15 @@ mvn test
 
 ---
 
+## 🎙️ Hackathon Pitch Deck & Presentation Slides (For Judges)
+
+- 🌐 **Interactive Pitch Deck (Web App):** Open [http://localhost:8080/slides.html](http://localhost:8080/slides.html) (or `http://localhost:3000/slides.html`)
+  - *8-slide presentation with keyboard navigation (`←` / `→` / `Space`), fullscreen mode (`F`), and PDF export (`Cmd+P`).*
+- 📑 **Slide-by-Slide Speaker Script:** [`docs/PITCH_DECK.md`](file:///Users/katlego/work/RippleReady/docs/PITCH_DECK.md)
+  - *Complete presentation script, timing breakdown, and strategic FNB alignment points.*
+
+---
+
 ## 🎬 60-Second Hackathon Demo Script for Judges
 
 1. **Load Pre-Configured Outage:**
