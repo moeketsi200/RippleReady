@@ -10,8 +10,23 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
-        changeOrigin: true
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('error', (err) => {
+            // Silently handle backend reconnects/restarts
+          });
+        }
+      },
+      '/healthz': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('error', (err) => {
+            // Silently handle backend reconnects/restarts
+          });
+        }
       }
     }
   }
 })
+

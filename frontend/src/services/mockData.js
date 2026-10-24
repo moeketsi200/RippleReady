@@ -167,3 +167,4 @@ export const INITIAL_RESOURCES = [
     verified: true
   }
 ];
+

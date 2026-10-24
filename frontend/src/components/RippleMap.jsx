@@ -1,7 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Circle, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Droplet, AlertTriangle, ShieldCheck, HeartHandshake, Home, Store, School } from 'lucide-react';
+
+const MAP_STYLES = {
+  dark: {
+    label: '🌙 Dark Ops',
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    className: 'dark-tiles',
+    maxZoom: 19
+  },
+  satellite: {
+    label: '🛰️ Satellite',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS, GeoEye',
+    className: '',
+    maxZoom: 18
+  },
+  streets: {
+    label: '🗺️ Streets',
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    className: '',
+    maxZoom: 19
+  }
+};
 
 // Controller to smoothly animate map to center when coordinates update
 function MapRecenter({ center }) {
@@ -95,7 +119,9 @@ export default function RippleMap({
   onSelectFacility,
   onSelectResource
 }) {
+  const [mapStyle, setMapStyle] = useState('dark');
   const mapCenter = [incident.latitude, incident.longitude];
+  const currentTile = MAP_STYLES[mapStyle] || MAP_STYLES.dark;
 
   return (
     <div className="relative w-full h-[60vh] lg:h-[calc(100vh-140px)] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
@@ -107,10 +133,13 @@ export default function RippleMap({
       >
         <MapRecenter center={mapCenter} />
 
-        {/* Dark Mode CartoDB Map Tiles */}
+        {/* Clean, Watermark-Free TileLayer (No API Key Required) */}
         <TileLayer
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          key={mapStyle}
+          attribution={currentTile.attribution}
+          url={currentTile.url}
+          className={currentTile.className}
+          maxZoom={currentTile.maxZoom}
         />
 
         {/* Outage Epicenter & Ripple Perimeter Circle */}
@@ -214,6 +243,24 @@ export default function RippleMap({
         ))}
       </MapContainer>
 
+      {/* Basemap Style Switcher */}
+      <div className="absolute top-4 right-4 z-[400] flex bg-slate-950/90 backdrop-blur-md rounded-xl p-1 border border-slate-800 shadow-xl gap-1">
+        {Object.entries(MAP_STYLES).map(([key, style]) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setMapStyle(key)}
+            className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+              mapStyle === key
+                ? 'bg-teal-500 text-slate-950 font-bold shadow'
+                : 'text-slate-400 hover:text-white hover:bg-slate-850'
+            }`}
+          >
+            {style.label}
+          </button>
+        ))}
+      </div>
+
       {/* Floating Legend Overlay */}
       <div className="absolute bottom-4 left-4 z-[400] bg-slate-950/90 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-xs shadow-xl flex flex-col space-y-1.5 text-slate-300">
         <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Map Legend</span>
@@ -237,3 +284,4 @@ export default function RippleMap({
     </div>
   );
 }
+

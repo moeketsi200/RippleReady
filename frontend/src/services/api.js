@@ -6,7 +6,7 @@ export const api = {
   // Check backend health
   async checkHealth() {
     try {
-      const res = await fetch(`${BASE_URL.replace('/api', '')}/healthz`, { signal: AbortSignal.timeout(1500) });
+      const res = await fetch('/healthz', { signal: AbortSignal.timeout(1500) });
       if (res.ok) {
         const data = await res.json();
         return { connected: true, data };
@@ -239,3 +239,4 @@ export const api = {
     ];
   }
 };
+
