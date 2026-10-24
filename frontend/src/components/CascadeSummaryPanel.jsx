@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, Clock, Users, DollarSign, CheckCircle2, Truck, Sparkles, ArrowRight } from 'lucide-react';
+import { AlertCircle, Clock, Users, DollarSign, CheckCircle2, Truck, Sparkles, ArrowRight, MapPin } from 'lucide-react';
 
 export default function CascadeSummaryPanel({
   facilities,
@@ -86,8 +86,9 @@ export default function CascadeSummaryPanel({
                     </span>
                     <span className="text-xs text-slate-400">• {fac.distanceKm} km away</span>
                     {isSelected && (
-                      <span className="text-[9px] font-extrabold text-teal-300 bg-teal-900/70 px-1.5 py-0.5 rounded border border-teal-400/50">
-                        📍 On Map
+                      <span className="text-[9px] font-extrabold text-teal-300 bg-teal-900/70 px-1.5 py-0.5 rounded border border-teal-400/50 flex items-center space-x-1">
+                        <MapPin className="w-2.5 h-2.5 text-teal-300" />
+                        <span>On Map</span>
                       </span>
                     )}
                   </div>

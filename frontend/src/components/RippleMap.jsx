@@ -1,25 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Circle, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Droplet, AlertTriangle, ShieldCheck, HeartHandshake, Home, Store, School } from 'lucide-react';
+import {
+  Moon,
+  Satellite,
+  Map as MapIcon,
+  Maximize2,
+  Minimize2,
+  Columns,
+  Crosshair,
+  ZoomOut,
+  Droplet,
+  AlertTriangle,
+  ShieldCheck
+} from 'lucide-react';
 
 const MAP_STYLES = {
   dark: {
-    label: '🌙 Dark Ops',
+    label: 'Dark Ops',
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     className: 'dark-tiles',
     maxZoom: 19
   },
   satellite: {
-    label: '🛰️ Satellite',
+    label: 'Satellite',
     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS, GeoEye',
     className: '',
     maxZoom: 18
   },
   streets: {
-    label: '🗺️ Streets',
+    label: 'Streets',
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     className: '',
@@ -75,17 +87,19 @@ function MapNavControls({ incident, facilities, resources, onResetEpicenter }) {
         type="button"
         onClick={handleFitZone}
         title="Zoom Out: Fit Entire 2.0km Ripple Zone"
-        className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-slate-950/95 hover:bg-slate-800 text-teal-400 hover:text-teal-300 text-xs font-bold border border-slate-700 shadow-xl backdrop-blur-md transition hover:scale-105"
+        className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950/95 hover:bg-slate-800 text-teal-400 hover:text-teal-300 text-xs font-bold border border-slate-700 shadow-xl backdrop-blur-md transition hover:scale-105"
       >
-        <span>🔍 Fit Zone</span>
+        <ZoomOut className="w-3.5 h-3.5" />
+        <span>Fit Zone</span>
       </button>
       <button
         type="button"
         onClick={handleCenterEpicenter}
         title="Center Outage Epicenter"
-        className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-slate-950/95 hover:bg-slate-800 text-red-400 hover:text-red-300 text-xs font-bold border border-slate-700 shadow-xl backdrop-blur-md transition hover:scale-105"
+        className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-slate-950/95 hover:bg-slate-800 text-red-400 hover:text-red-300 text-xs font-bold border border-slate-700 shadow-xl backdrop-blur-md transition hover:scale-105"
       >
-        <span>🎯 Outage</span>
+        <Crosshair className="w-3.5 h-3.5" />
+        <span>Epicenter</span>
       </button>
     </div>
   );
@@ -106,6 +120,18 @@ const createEpicenterIcon = () => {
     iconSize: [32, 32],
     iconAnchor: [16, 16]
   });
+};
+
+const getFacilityIconSvg = (type) => {
+  if (type === 'CRECHE') {
+    return `<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>`;
+  } else if (type === 'ELDERLY_CARE') {
+    return `<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
+  } else if (type === 'SOUP_KITCHEN') {
+    return `<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" x2="6" y1="1" y2="4"/><line x1="10" x2="10" y1="1" y2="4"/><line x1="14" x2="14" y1="1" y2="4"/></svg>`;
+  } else {
+    return `<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/></svg>`;
+  }
 };
 
 const createFacilityIcon = (facility, isFocused = false) => {
@@ -134,8 +160,8 @@ const createFacilityIcon = (facility, isFocused = false) => {
     className: 'custom-facility-marker',
     html: `
       <div class="relative flex flex-col items-center">
-        <div class="flex items-center justify-center w-8 h-8 rounded-xl ${bgColor} text-white shadow-md border-2 ${ringColor} text-xs font-bold transition transform hover:scale-110">
-          ${facility.type === 'CRECHE' ? '👶' : facility.type === 'ELDERLY_CARE' ? '👵' : facility.type === 'SOUP_KITCHEN' ? '🍲' : '🏪'}
+        <div class="flex items-center justify-center w-8 h-8 rounded-xl ${bgColor} text-white shadow-md border-2 ${ringColor} transition transform hover:scale-110">
+          ${getFacilityIconSvg(facility.type)}
         </div>
         <span class="mt-1 px-1.5 py-0.2 text-[9px] font-extrabold uppercase rounded bg-slate-900/90 text-white border border-slate-700 whitespace-nowrap">
           ${facility.name.split(' ')[0]}
@@ -152,8 +178,10 @@ const createResourceIcon = (resource) => {
     className: 'custom-resource-marker',
     html: `
       <div class="relative flex flex-col items-center">
-        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500 text-white shadow-lg shadow-teal-500/30 border-2 border-teal-200 text-xs font-bold transition transform hover:scale-110">
-          💧
+        <div class="flex items-center justify-center w-8 h-8 rounded-full bg-teal-500 text-white shadow-lg shadow-teal-500/30 border-2 border-teal-200 transition transform hover:scale-110">
+          <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+          </svg>
         </div>
         <span class="mt-1 px-1.5 py-0.2 text-[9px] font-bold rounded bg-teal-950/90 text-teal-300 border border-teal-700/50 whitespace-nowrap">
           ${resource.availableCapacity}L
@@ -329,13 +357,16 @@ export default function RippleMap({
               key={key}
               type="button"
               onClick={() => setMapStyle(key)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
+              className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold transition ${
                 mapStyle === key
                   ? 'bg-teal-500 text-slate-950 font-bold shadow'
                   : 'text-slate-400 hover:text-white hover:bg-slate-850'
               }`}
             >
-              {style.label}
+              {key === 'dark' && <Moon className="w-3.5 h-3.5" />}
+              {key === 'satellite' && <Satellite className="w-3.5 h-3.5" />}
+              {key === 'streets' && <MapIcon className="w-3.5 h-3.5" />}
+              <span>{style.label}</span>
             </button>
           ))}
         </div>
@@ -347,25 +378,45 @@ export default function RippleMap({
               type="button"
               onClick={() => onToggleViewMode(mapViewMode === 'minimized' ? 'split' : 'minimized')}
               title={mapViewMode === 'minimized' ? 'Restore Split View' : 'Minimize Map (Focus on Ledger)'}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+              className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold transition ${
                 mapViewMode === 'minimized'
                   ? 'bg-teal-500 text-slate-950 font-black shadow'
                   : 'text-slate-400 hover:text-white hover:bg-slate-850'
               }`}
             >
-              {mapViewMode === 'minimized' ? '⚖️ Restore' : '🗕 Min Map'}
+              {mapViewMode === 'minimized' ? (
+                <>
+                  <Columns className="w-3 h-3" />
+                  <span>Restore</span>
+                </>
+              ) : (
+                <>
+                  <Minimize2 className="w-3 h-3" />
+                  <span>Min Map</span>
+                </>
+              )}
             </button>
             <button
               type="button"
               onClick={() => onToggleViewMode(mapViewMode === 'maximized' ? 'split' : 'maximized')}
               title={mapViewMode === 'maximized' ? 'Restore Split View' : 'Maximize Map Full Screen'}
-              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
+              className={`flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-bold transition ${
                 mapViewMode === 'maximized'
                   ? 'bg-teal-500 text-slate-950 font-black shadow'
                   : 'text-slate-400 hover:text-white hover:bg-slate-850'
               }`}
             >
-              {mapViewMode === 'maximized' ? '⚖️ Split' : '⛶ Max Map'}
+              {mapViewMode === 'maximized' ? (
+                <>
+                  <Columns className="w-3 h-3" />
+                  <span>Split</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="w-3 h-3" />
+                  <span>Max Map</span>
+                </>
+              )}
             </button>
           </div>
         )}
