@@ -7,17 +7,20 @@ export default function ImpactDashboardModal({ isOpen, onClose }) {
 
   const [impact, setImpact] = useState(null);
   const [ledger, setLedger] = useState([]);
+  const [dbStatus, setDbStatus] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       setLoading(true);
-      const [impactData, ledgerData] = await Promise.all([
+      const [impactData, ledgerData, databaseData] = await Promise.all([
         api.getImpactSummary(),
-        api.getAuditLedger()
+        api.getAuditLedger(),
+        api.getDatabaseStatus()
       ]);
       setImpact(impactData);
       setLedger(ledgerData);
+      setDbStatus(databaseData);
       setLoading(false);
     }
     loadData();
@@ -43,6 +46,23 @@ export default function ImpactDashboardModal({ isOpen, onClose }) {
         <p className="text-xs text-slate-400">
           Pilot Area: {impact?.pilotWard || 'Ward 18, George, Western Cape'}
         </p>
+
+        {/* SQLite Database Engine Status Banner */}
+        <div className="flex flex-wrap items-center justify-between text-[11px] text-slate-300 bg-slate-950/80 border border-slate-800 rounded-xl px-3 py-2 mt-3">
+          <div className="flex items-center space-x-2">
+            <Database className="w-3.5 h-3.5 text-teal-400" />
+            <span className="font-semibold text-slate-400">Database Engine:</span>
+            <span className="font-mono text-teal-300 font-bold">{dbStatus?.engine || 'SQLite 3'} ({dbStatus?.journalMode?.toUpperCase() || 'WAL'} Mode)</span>
+          </div>
+          <div className="flex items-center space-x-3 text-[10px] text-slate-400 mt-1 sm:mt-0 font-mono">
+            <span>Anchors: <strong className="text-white">{dbStatus?.facilityCount ?? 6}</strong></span>
+            <span>Reserves: <strong className="text-white">{dbStatus?.resourceCount ?? 3}</strong></span>
+            <span>Ledger: <strong className="text-white">{dbStatus?.auditLedgerCount ?? ledger.length}</strong></span>
+            <span className="text-emerald-400 font-semibold flex items-center gap-1 bg-emerald-950/80 border border-emerald-800/50 px-2 py-0.5 rounded">
+              <CheckCircle className="w-3 h-3" /> Disk Synced
+            </span>
+          </div>
+        </div>
 
         {/* 4 High Impact KPI Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
