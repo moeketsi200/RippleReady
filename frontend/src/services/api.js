@@ -1,12 +1,14 @@
 import { DEFAULT_INCIDENT, INITIAL_FACILITIES, INITIAL_RESOURCES } from './mockData';
 
-const BASE_URL = '/api';
+// Support external backend URL when deployed on Vercel (e.g. VITE_API_URL=https://rippleready-backend.onrender.com)
+const API_ORIGIN = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const BASE_URL = `${API_ORIGIN}/api`;
 
 export const api = {
   // Check backend health
   async checkHealth() {
     try {
-      const res = await fetch('/healthz', { signal: AbortSignal.timeout(1500) });
+      const res = await fetch(`${API_ORIGIN}/healthz`, { signal: AbortSignal.timeout(2000) });
       if (res.ok) {
         const data = await res.json();
         return { connected: true, data };
