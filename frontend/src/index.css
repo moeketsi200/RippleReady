@@ -100,4 +100,20 @@
   color: #2dd4bf !important;
 }
 
+/* Prevent Leaflet internal layers from bleeding over modals & overlays */
+.leaflet-container {
+  isolation: isolate;
+  z-index: 0 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 10 !important;
+}
+
+.leaflet-pane {
+  z-index: 5 !important;
+}
+
+
 

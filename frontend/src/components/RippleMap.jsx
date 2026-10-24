@@ -82,7 +82,7 @@ function MapNavControls({ incident, facilities, resources, onResetEpicenter }) {
   };
 
   return (
-    <div className="absolute top-20 left-3 flex flex-col space-y-1.5 z-[400]">
+    <div className="absolute top-20 left-3 flex flex-col space-y-1.5 z-10">
       <button
         type="button"
         onClick={handleFitZone}
@@ -216,7 +216,7 @@ export default function RippleMap({
       : 'h-[60vh] lg:h-[calc(100vh-140px)]';
 
   return (
-    <div className={`relative w-full ${heightClass} rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 transition-all duration-300`}>
+    <div className={`relative w-full ${heightClass} rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950 transition-all duration-300 isolate z-0`}>
       <MapContainer
         center={mapCenter}
         zoom={15}
@@ -349,7 +349,7 @@ export default function RippleMap({
       </MapContainer>
 
       {/* Top Controls: Basemap & View Mode Switcher */}
-      <div className="absolute top-4 right-4 z-[400] flex items-center space-x-2">
+      <div className="absolute top-4 right-4 z-10 flex items-center space-x-2">
         {/* Basemap Style Switcher */}
         <div className="flex bg-slate-950/90 backdrop-blur-md rounded-xl p-1 border border-slate-800 shadow-xl gap-1">
           {Object.entries(MAP_STYLES).map(([key, style]) => (
@@ -423,7 +423,7 @@ export default function RippleMap({
       </div>
 
       {/* Floating Legend Overlay */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-slate-950/90 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-xs shadow-xl flex flex-col space-y-1.5 text-slate-300">
+      <div className="absolute bottom-4 left-4 z-10 bg-slate-950/90 backdrop-blur-md border border-slate-800 rounded-xl p-3 text-xs shadow-xl flex flex-col space-y-1.5 text-slate-300">
         <span className="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">Map Legend</span>
         <div className="flex items-center space-x-2">
           <span className="w-3 h-3 rounded-full bg-red-500 animate-ping" />
