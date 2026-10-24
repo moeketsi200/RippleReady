@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, ShieldCheck, AlertTriangle, RefreshCw, BarChart3, PlusCircle } from 'lucide-react';
+import { Activity, ShieldCheck, AlertTriangle, RefreshCw, BarChart3, PlusCircle, Presentation } from 'lucide-react';
 
 export default function Navbar({
   backendConnected,
@@ -53,6 +53,18 @@ export default function Navbar({
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Demo Scenario</span>
           </button>
+
+          {/* Pitch Slides Link */}
+          <a
+            href="/slides.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-semibold transition"
+            title="Open 8-Slide Pitch Deck Presentation"
+          >
+            <Presentation className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="hidden sm:inline">Pitch Slides</span>
+          </a>
 
           {/* Impact Dashboard */}
           <button
