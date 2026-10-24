@@ -60,28 +60,66 @@ RippleReady natively ties into First National Bank’s commercial and social pil
 
 - **Backend API:** Java 21+ / Spring Boot 3.3.5 (Enterprise-grade, type-safe, RESTful API with OpenAPI/Swagger UI at `/swagger-ui.html`).
 - **Core Engine:** Deterministic event-driven dependency rules with Haversine great-circle spatial calculations (sub-second execution, zero hallucination).
-- **Frontend (Web/PWA):** Next.js / React + Tailwind CSS (Mobile-first, optimized for low-bandwidth cellular connections).
+- **Frontend (Web/PWA):** React 18 + Vite + Tailwind CSS (Mobile-first, dark-mode modern UI with interactive Leaflet map, emergency impact counters, and live sound/confetti celebrations).
 - **Mapping:** Leaflet.js with OpenStreetMap (lightweight, zero proprietary API key lock-in).
+- **FNB Rails:** Simulated FNB Instant Pay micro-escrow disbursement with SHA-256 cryptographic audit ledger chaining.
 - **Containerization:** Multi-stage Dockerfile targeting Alpine JRE with low-RAM memory limits (`-Xmx384m`).
 
 ---
 
 ## 🚀 Quickstart Guide
 
-### 1. Run the Java Backend
+### Option A: Run Unified Full-Stack (Recommended for Judges)
+The production React build is pre-bundled directly inside the Spring Boot JAR! Run one single command:
 ```bash
 cd backend
 mvn spring-boot:run
 ```
-- API Base URL: `http://localhost:8080`
-- Swagger Interactive UI: `http://localhost:8080/swagger-ui.html`
-- Health Probe: `http://localhost:8080/healthz`
+- 🌐 **Interactive Web App & Map:** [http://localhost:8080](http://localhost:8080)
+- 📑 **Swagger OpenAPI Docs:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- 🩺 **Health Check:** [http://localhost:8080/healthz](http://localhost:8080/healthz)
 
-### 2. Run Tests
+### Option B: Run Frontend with Hot-Reload (For UI Development)
+```bash
+# Terminal 1: Backend
+cd backend
+mvn spring-boot:run
+
+# Terminal 2: Frontend
+cd frontend
+npm run dev
+```
+- Open [http://localhost:3000](http://localhost:3000) for hot-module reloading.
+
+### 🧪 Run Automated Tests (64 Tests / 100% Passing)
 ```bash
 cd backend
 mvn test
 ```
+
+---
+
+## 🎬 60-Second Hackathon Demo Script for Judges
+
+1. **Load Pre-Configured Outage:**
+   - Click **"⚡ Load Demo Outage (Ward 18)"** in the top navigation.
+   - Watch the map instantly render the **2.0 km red ripple perimeter** centered on York Street, George.
+2. **Observe Downstream Cascade:**
+   - The **Downstream Cascade Risk** panel identifies threatened facilities ranked by human-life urgency:
+     - 🚨 **Little Stars Crèche** (Buffer: 2h, Status: Threatened, Priority: Life & Care)
+     - 🚨 **Rosemoor Community Soup Kitchen** (Buffer: 3h, Status: Threatened, Priority: Food Security)
+     - ⚠️ **Mama Zola's Bakery (FNB Speedpoint Merchant)** (Buffer: 4h, Status: Threatened, Priority: Commercial Continuity)
+3. **Pledge Mutual Aid:**
+   - Click **"Pledge Mutual Aid"** on Little Stars Crèche.
+   - RippleReady matches the nearest capacity: **George Community Church JoJo Tank (5,000 L, 0.45 km away)**.
+   - Click **"Confirm & Lock Allocation"** &rarr; System deducts 500 L and issues a secure 6-character OTP token (e.g., `WTR-101`).
+4. **Complete Handshake & Instant Payout:**
+   - Click **"Verify Delivery Handshake"** in the top bar.
+   - Enter the token `WTR-101` and recipient `Little Stars Crèche`.
+   - Click **"Verify & Release FNB Instant Pay"**.
+   - 🎉 **Confetti celebration!** The node transitions to green (RESOLVED), R150 fuel stipend is disbursed via FNB rails, and the audit hash is locked into the SHA-256 ledger.
+5. **Inspect Audit Ledger & SME Turnover Saved:**
+   - Click **"📊 Real-Time Impact & Audit"** to view live metrics: `1` crisis averted, `40` children protected, `R3,350` SME turnover safeguarded, and cryptographic SHA-256 hash chains.
 
 ---
 
