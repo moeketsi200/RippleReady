@@ -1,0 +1,12 @@
+{
+  "name": "rippleready",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RippleReady — Community Disaster Interdependency & Mutual Aid Engine",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "dev": "cd frontend && npm run dev",
+    "start": "cd frontend && npm run preview",
+    "test": "cd backend && mvn test"
+  }
+}
