@@ -93,6 +93,11 @@ npm run dev
 ```
 - Open [http://localhost:3000](http://localhost:3000) for hot-module reloading.
 
+### Option C: Deploy to Cloud (Render & Vercel)
+- 🚀 **Step-by-Step Cloud Deployment Guide:** [`docs/DEPLOYMENT_GUIDE.md`](file:///Users/katlego/work/RippleReady/docs/DEPLOYMENT_GUIDE.md)
+  - Backend deployed to **Render** via Docker & `render.yaml` with embedded SQLite 3.
+  - Frontend deployed to **Vercel** with dynamic `VITE_API_URL` routing and CORS configuration.
+
 ### 🧪 Run Automated Tests (72 Tests / 100% Passing)
 ```bash
 cd backend
