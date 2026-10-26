@@ -57,18 +57,52 @@
     .glow-teal {
       box-shadow: 0 0 35px -5px rgba(0, 170, 158, 0.35);
     }
+    @page {
+      size: 16in 9in;
+      margin: 0;
+    }
     @media print {
-      body {
-        overflow: visible;
+      * {
+        animation: none !important;
+        transition: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        filter: none !important;
+        -webkit-filter: none !important;
+      }
+      .glass-card {
+        background: #0B1922 !important;
+        border: 1px solid #1E293B !important;
+      }
+      html, body {
+        width: 16in !important;
+        height: auto !important;
+        overflow: visible !important;
         background: #060E11 !important;
-        -webkit-print-color-adjust: exact;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
       }
       .slide {
         display: flex !important;
         opacity: 1 !important;
         transform: none !important;
-        page-break-after: always;
-        height: 100vh;
+        page-break-after: always !important;
+        break-after: page !important;
+        width: 16in !important;
+        height: 9in !important;
+        min-height: 9in !important;
+        max-height: 9in !important;
+        padding: 3rem 4rem !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
       }
       .no-print {
         display: none !important;
@@ -81,7 +115,7 @@
   <!-- Top Presentation Header (no-print) -->
   <header class="no-print h-14 border-b border-slate-800/80 px-6 flex items-center justify-between bg-slate-950/70 backdrop-blur-md z-50">
     <div class="flex items-center space-x-3">
-      <img src="/logo.svg" alt="RippleReady" class="w-8 h-8 rounded-lg shadow-md">
+      <img src="./logo.svg" alt="RippleReady" class="w-8 h-8 rounded-lg shadow-md">
       <div class="flex items-center space-x-2">
         <span class="font-black text-sm tracking-tight text-white">RippleReady</span>
         <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30">
@@ -107,6 +141,10 @@
     </div>
 
     <div class="flex items-center space-x-2">
+      <a href="./RippleReady_Pitch_Deck.pdf" download="RippleReady_Pitch_Deck.pdf" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-teal-300 hover:text-white border border-teal-500/40 text-xs font-bold transition flex items-center space-x-1.5" title="Download Presentation Slides as PDF">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>📥 Download PDF</span>
+      </a>
       <a href="/" class="px-3 py-1.5 rounded-lg bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-black shadow-lg shadow-teal-500/20 transition flex items-center space-x-1.5">
         <span>⚡ Launch Live App</span>
       </a>
@@ -127,7 +165,7 @@
       </div>
 
       <div class="my-3">
-        <img src="/logo.svg" alt="RippleReady Logo" class="w-24 h-24 mx-auto rounded-3xl shadow-2xl shadow-teal-500/30 mb-4 hover:scale-105 transition-transform duration-300">
+        <img src="./logo.svg" alt="RippleReady Logo" class="w-24 h-24 mx-auto rounded-3xl shadow-2xl shadow-teal-500/30 mb-4 hover:scale-105 transition-transform duration-300">
         <h1 class="text-5xl md:text-6xl font-black text-white tracking-tight leading-tight">
           Ripple<span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-300">Ready</span>
         </h1>
@@ -398,6 +436,7 @@
           <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wider">Backend Architecture</h3>
           <ul class="mt-3 space-y-2 text-xs text-slate-300">
             <li>• <b>Java 25 LTS & Spring Boot 3.3.5</b></li>
+            <li>• <b>Embedded SQLite 3 (WAL Journaling)</b></li>
             <li>• REST API with OpenAPI/Swagger UI</li>
             <li>• Deterministic Haversine spatial math</li>
             <li>• Sub-3ms cascade evaluation benchmark</li>
@@ -407,14 +446,15 @@
 
         <div class="glass-card p-6 rounded-2xl border-2 border-emerald-500/60 bg-emerald-950/10">
           <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">Automated Test Suite</h3>
-          <div class="text-4xl font-black text-white mt-2">64 Tests</div>
-          <p class="text-xs text-emerald-400 font-bold mt-1">100% Passing in ~3.5 Seconds</p>
+          <div class="text-4xl font-black text-white mt-2">72 Tests</div>
+          <p class="text-xs text-emerald-400 font-bold mt-1">100% Passing in ~3.8 Seconds</p>
           <ul class="mt-3 space-y-1.5 text-[11px] text-slate-300">
             <li>✓ Epic 1: Coordinate bounds & deduplication</li>
             <li>✓ Epic 2: Priority tiering & 100-run bench</li>
             <li>✓ Epic 3: Over-allocation & negative units</li>
             <li>✓ Epic 4: OTP tokens & replay attack guards</li>
             <li>✓ Epic 5: Cryptographic hash ledger chaining</li>
+            <li>✓ SQLite: ACID persistence & WAL recovery</li>
             <li>✓ Concurrency: 8 parallel thread safety</li>
           </ul>
         </div>
