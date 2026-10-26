@@ -108,6 +108,8 @@ mvn test
 
 ## 🎙️ Hackathon Pitch Deck & Video Demo Guide (For Judges)
 
+- 📄 **Official Pitch Deck PDF (8 Slides):** [`docs/RippleReady_Pitch_Deck.pdf`](file:///Users/katlego/work/RippleReady/docs/RippleReady_Pitch_Deck.pdf)
+  - *Pixel-perfect 16:9 widescreen presentation deck ready for judges, offline viewing, or printing.*
 - 🌐 **Interactive Pitch Deck (Web App):** Open [http://localhost:8080/slides.html](http://localhost:8080/slides.html) (or `http://localhost:3000/slides.html`)
   - *8-slide presentation with keyboard navigation (`←` / `→` / `Space`), fullscreen mode (`F`), and PDF export (`Cmd+P`).*
 - 📑 **Slide-by-Slide Speaker Script:** [`docs/PITCH_DECK.md`](file:///Users/katlego/work/RippleReady/docs/PITCH_DECK.md)

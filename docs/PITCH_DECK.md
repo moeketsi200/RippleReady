@@ -2,7 +2,8 @@
 > **FNB App of the Year Hackathon 2026**  
 > **Topic 6: Climate Resilience & Essential Services**  
 > **Target Pilot:** Ward 18, George, Western Cape  
-> **Time Limit:** 3 to 5 Minutes
+> **Time Limit:** 3 to 5 Minutes  
+> **PDF Slides:** [`docs/RippleReady_Pitch_Deck.pdf`](file:///Users/katlego/work/RippleReady/docs/RippleReady_Pitch_Deck.pdf) (16:9 Widescreen)
 
 ---
 
